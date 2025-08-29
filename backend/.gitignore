@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+.venv/
+.env
+
+
+# FastAPI / Uvicorn
+*.log
+
+
+# Node / Frontend (if included in the same repo)
+node_modules/
+build/
+dist/
+.env.local
+
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store

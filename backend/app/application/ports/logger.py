@@ -1,0 +1,6 @@
+from typing import Protocol, Any
+
+
+class LoggerPort(Protocol):
+    def info(self, event: str, **kwargs: Any) -> None: ...
+    def error(self, event: str, **kwargs: Any) -> None: ...
