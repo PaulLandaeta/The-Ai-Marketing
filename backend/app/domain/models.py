@@ -17,6 +17,7 @@ class VisualConcept(BaseModel):
     palette: List[str] = ["#0B5FFF", "#0FD28F"]
     typography: str = "Inter"
     why: str = ""
+    image_url: Optional[str] = None
 
 
 class FactCard(BaseModel):

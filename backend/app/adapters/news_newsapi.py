@@ -5,6 +5,7 @@ from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_excep
 from newsapi import NewsApiClient
 from app.domain.models import FactCard
 from app.application.ports.news import NewsPort
+from .cache import cache
 import os
 
 
@@ -20,6 +21,12 @@ class NewsAPIAdapter(NewsPort):
         retry=retry_if_exception_type(Exception)
     )
     async def headlines(self, query: str, days: int = 7) -> List[FactCard]:
+
+        key = f"news:{self.language}:{days}:{query}"
+        cached = cache.get(key)
+        if cached is not None:
+            return cached
+
         # Compute date window in UTC
         to_dt = datetime.now(timezone.utc)
         from_dt = to_dt - timedelta(days=max(1, days))
@@ -43,4 +50,5 @@ class NewsAPIAdapter(NewsPort):
             source = (art.get('source') or {}).get('name') or 'NewsAPI'
             facts.append(FactCard(source=f"{source} via NewsAPI", claim=title, url=url))
         print(f"Fetched {len(facts)} articles from NewsAPI")
+        cache.set(key, facts)
         return facts

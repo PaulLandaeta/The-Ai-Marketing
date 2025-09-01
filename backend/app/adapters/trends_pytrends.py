@@ -5,6 +5,7 @@ from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_excep
 from pytrends.request import TrendReq
 from app.domain.models import FactCard
 from app.application.ports.trends import TrendsPort
+from .cache import cache
 import os
 
 
@@ -18,6 +19,12 @@ class PyTrendsAdapter(TrendsPort):
     @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=0.5, min=1, max=6),
         retry=retry_if_exception_type(Exception))
     async def top_queries(self, query: str) -> List[FactCard]:
+
+        key = f"trends:{self.geo}:{query}"
+        cached = cache.get(key)
+        if cached is not None:
+            return cached
+
         # Build payload around key terms (split); fall back to whole query if too long
         kw_list = [w for w in query.split() if len(w) > 2][:3] or [query[:30]]
         self.tr.build_payload(kw_list=kw_list, geo=self.geo, timeframe='now 7-d')
@@ -32,8 +39,8 @@ class PyTrendsAdapter(TrendsPort):
             if first and last is not None:
                 delta = ((last - first) / max(first, 1)) * 100
                 facts.append(FactCard(
-                source=f"Google Trends ({self.geo})",
-                claim=f"Interest change ~{delta:.1f}% last 7d"
+                    source=f"Google Trends ({self.geo})",
+                    claim=f"Interest change ~{delta:.1f}% last 7d"
                 ))
 
 
@@ -50,4 +57,5 @@ class PyTrendsAdapter(TrendsPort):
                 claim=f"Top related: {top_terms}"
                 ))
         print(f"Fetched {len(facts)} facts from PyTrends for query '{query}'")
+        cache.set(key, facts)
         return facts
