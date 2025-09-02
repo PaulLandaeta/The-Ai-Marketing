@@ -8,7 +8,7 @@ import os
 
 
 
-app = FastAPI(title="AI Marketing Agent API (Hexagonal)")
+app = FastAPI(title="AI Marketing Agent API")
 os.makedirs("/tmp", exist_ok=True)
 
 app.add_middleware(RequestContextMiddleware)
