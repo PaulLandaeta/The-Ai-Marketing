@@ -3,4 +3,5 @@ from app.domain.models import VisualConcept
 
 
 class ImageGenPort(Protocol):
-    async def propose(self, message: str) -> VisualConcept: ...
+    async def generate(self, *, prompt: str, filename: str | None = None) -> str:
+        ...

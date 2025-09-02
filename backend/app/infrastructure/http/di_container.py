@@ -24,4 +24,10 @@ def build_generate_post_usecase() -> GeneratePostFromSources:
     llm = OpenAIAdapter(api_key=os.getenv("OPENAI_API_KEY"))
     generator = PostGenerationAdapter(llm=llm)
     agent = PostAgent(generator=generator)
-    return GeneratePostFromSources(agent)
+
+    image_gen = DalleAdapter(
+        api_key=os.getenv("OPENAI_API_KEY"),
+        out_dir="app/static",
+        public_url_prefix="/static",
+    )
+    return GeneratePostFromSources(agent=agent, image_gen=image_gen)

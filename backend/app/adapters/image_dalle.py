@@ -1,19 +1,19 @@
 import os
 import base64
-from typing import Optional, List
-import anyio
+from typing import Optional
 from openai import OpenAI
-from app.domain.models import VisualConcept, VisualFrame
 from app.application.ports.image import ImageGenPort
 
+def _slugify(text: str) -> str:
+    return "".join(c.lower() if c.isalnum() else "-" for c in text).strip("-")
 
 class DalleAdapter(ImageGenPort):
     def __init__(
         self,
         model: str = "gpt-image-1",
         api_key: Optional[str] = None,
-        out_dir: str = "app/static",       # directory served at /static
-        public_url_prefix: str = "/static" # URL prefix for files in out_dir
+        out_dir: str = "app/static",        # directorio servido en /static
+        public_url_prefix: str = "/static", # prefijo público
     ):
         self.client = OpenAI(api_key=api_key or os.getenv("OPENAI_API_KEY"))
         self.model = model
@@ -21,62 +21,48 @@ class DalleAdapter(ImageGenPort):
         self.public_url_prefix = public_url_prefix
         os.makedirs(self.out_dir, exist_ok=True)
 
-    async def _generate_image_resp(self, prompt: str):
-        """Run the blocking OpenAI SDK call in a worker thread."""
-        def _call():
-            return self.client.images.generate(
-                model=self.model,   # "gpt-image-1"
-                prompt=prompt,
-                size="1024x1024",
-            )
-        return await anyio.to_thread.run_sync(_call)
+    def _generate_image_resp(self, prompt: str):
+        # Llamada síncrona al SDK de OpenAI
+        return self.client.images.generate(
+            model=self.model,
+            prompt=prompt,
+            size="1024x1024",
+        )
 
-    async def _get_b64_from_resp(self, resp) -> str:
-        """Extract base64 or raise a clear error."""
+    def _get_b64_from_resp(self, resp) -> str:
         if not getattr(resp, "data", None) or len(resp.data) == 0:
             raise RuntimeError("Image generation returned no data.")
         item = resp.data[0]
         b64 = getattr(item, "b64_json", None)
         if b64:
             return b64
-        # Some SDK/server combos may return a URL; surface that clearly.
         url = getattr(item, "url", None)
         if url:
             raise RuntimeError(
                 "Image generation returned a URL instead of base64. "
-                "Either download it manually or change the adapter to use URLs."
+                "Switch adapter to download URLs if needed."
             )
         raise RuntimeError("Image generation payload missing both b64_json and url.")
 
-    async def propose(self, message: str) -> VisualConcept:
-        # 1) Frames (keep your heuristic)
-        frames: List[VisualFrame] = [
-            VisualFrame(title="Problem", shot="top-down desk messy"),
-            VisualFrame(title="Solution", shot="clean UI hero"),
-        ]
+    def generate(self, *, prompt: str, filename: str | None = None) -> str:
+        resp = self._generate_image_resp(prompt)
+        b64 = self._get_b64_from_resp(resp)
 
-        # 2) Prompt (you can incorporate `message` as needed)
-        prompt = (
-            "Minimalist SaaS productivity app visual, clean UI mock, soft lighting, "
-            "blue/green palette, crisp typography, modern UI card components"
-        )
+        # nombre de archivo estable, evitando strings enormes
+        base = _slugify(prompt)[:48] or "image"
+        fname = filename or f"{base}.png"
 
-        # 3) Generate and extract base64
-        resp = await self._generate_image_resp(prompt)
-        b64 = await self._get_b64_from_resp(resp)
+        path = os.path.join(self.out_dir, fname)
+        # si existe, versionamos simple: image.png -> image-1.png, etc.
+        if os.path.exists(path):
+            root, ext = os.path.splitext(path)
+            i = 1
+            while os.path.exists(f"{root}-{i}{ext}"):
+                i += 1
+            path = f"{root}-{i}{ext}"
+            fname = os.path.basename(path)
 
-        # 4) Write file to static dir
-        filename = "concept.png"
-        path = os.path.join(self.out_dir, filename)
         with open(path, "wb") as f:
             f.write(base64.b64decode(b64))
 
-        # 5) Return URL that maps to where it was saved
-        rel_url = f"{self.public_url_prefix}/{filename}"
-
-        return VisualConcept(
-            format="Carousel",
-            frames=frames,
-            why="Blue/green conveys trust/calm; carousel performs well for LinkedIn B2B",
-            image_url=rel_url,
-        )
+        return f"{self.public_url_prefix}/{fname}"

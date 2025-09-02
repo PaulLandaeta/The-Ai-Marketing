@@ -44,7 +44,7 @@ class PostGenerationAdapter(PostGenerationPort):
 
         output = self.llm.complete(prompt=user, system=system)
         hashtags = seed_hashtags or ["#AI", "#Marketing"]
-        image_prompt = f"Illustration about {topic}"
+        image_prompt = f"Minimal, clean illustration representing: {topic}"
 
         return {
             "post": output.strip(),
