@@ -18,8 +18,23 @@ class GeneratePostFromSources:
         )
 
         if self.image_gen and result.get("image_prompt"):
-            result["image_url"] = self.image_gen.generate(
-                prompt=result["image_prompt"],
-                filename=None,
-            )
+            n_images = int(payload.get("n_images", 1))
+
+            if n_images > 1:
+                prompts: List[str] = [
+                    f"{result['image_prompt']} (variation {i + 1})"
+                    for i in range(n_images)
+                ]
+                filenames = [
+                    f"post-img-{i + 1:02d}.png" for i in range(n_images)
+                ]
+                result["images"] = self.image_gen.generate_many(
+                    prompts=prompts,
+                    filenames=filenames,
+                )
+            else:
+                result["image_url"] = self.image_gen.generate(
+                    prompt=result["image_prompt"],
+                    filename="post-img.png",
+                )
         return result
