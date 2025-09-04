@@ -5,6 +5,7 @@ from app.infrastructure.http.middleware import RequestContextMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.infrastructure.http.errors import unhandled_exception_handler
 import os
+from app.adapters.logger_structlog import logger
 
 
 
@@ -26,6 +27,7 @@ app.add_middleware(
 
 @app.get("/health")
 async def health():
+    logger.info("health.check")
     return {"ok": True}
 
 

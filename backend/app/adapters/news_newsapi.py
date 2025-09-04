@@ -6,6 +6,7 @@ from newsapi import NewsApiClient
 from app.domain.models import FactCard
 from app.application.ports.news import NewsPort
 from .cache import cache
+from app.adapters.logger_structlog import logger
 import os
 
 
@@ -35,6 +36,7 @@ class NewsAPIAdapter(NewsPort):
             dt_naive = dt.astimezone(timezone.utc).replace(tzinfo=None, microsecond=0)
             return dt_naive.strftime("%Y-%m-%dT%H:%M:%S")
         
+        logger.info("news.request", query=query, days=days, lang=self.language)
         res = self.client.get_everything(
             q=query,
             from_param=newsapi_dt(from_dt),
@@ -49,6 +51,6 @@ class NewsAPIAdapter(NewsPort):
             url = art.get('url')
             source = (art.get('source') or {}).get('name') or 'NewsAPI'
             facts.append(FactCard(source=f"{source} via NewsAPI", claim=title, url=url))
-        print(f"Fetched {len(facts)} articles from NewsAPI")
+        logger.info("news.response", count=len(facts))
         cache.set(key, facts)
         return facts

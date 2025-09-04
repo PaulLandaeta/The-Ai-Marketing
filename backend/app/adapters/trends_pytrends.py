@@ -6,6 +6,7 @@ from pytrends.request import TrendReq
 from app.domain.models import FactCard
 from app.application.ports.trends import TrendsPort
 from .cache import cache
+from app.adapters.logger_structlog import logger
 import os
 
 
@@ -25,6 +26,7 @@ class PyTrendsAdapter(TrendsPort):
         if cached is not None:
             return cached
 
+        logger.info("trends.request", query=query, geo=self.geo)
         # Build payload around key terms (split); fall back to whole query if too long
         kw_list = [w for w in query.split() if len(w) > 2][:3] or [query[:30]]
         self.tr.build_payload(kw_list=kw_list, geo=self.geo, timeframe='now 7-d')
@@ -56,6 +58,6 @@ class PyTrendsAdapter(TrendsPort):
                 source=f"Google Trends ({self.geo})",
                 claim=f"Top related: {top_terms}"
                 ))
-        print(f"Fetched {len(facts)} facts from PyTrends for query '{query}'")
+        logger.info("trends.response", count=len(facts))
         cache.set(key, facts)
         return facts

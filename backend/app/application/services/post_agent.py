@@ -1,4 +1,5 @@
 from typing import List, Dict
+from app.adapters.logger_structlog import logger
 from app.application.ports.post_agent import PostGenerationPort, PostOutput
 # from app.domain.services.trend_analyzer import TrendAnalyzerService
 # from domain.services.content_curator import ContentCuratorService
@@ -29,6 +30,7 @@ class PostAgent:
     ) -> PostOutput:
         # trends = self.trend_analyzer.analyze(sources)
         # curated = self.curator.curate(sources, trends)
+        logger.info("post.agent.run", topic=topic, audience=audience, tone=tone, max_len=max_len)
         return self.generator.generate_post(
         topic=topic,
         audience=audience,

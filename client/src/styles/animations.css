@@ -1,0 +1,188 @@
+/* Animaciones globales para Marketing UI */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slideUp {
+  from { 
+    transform: translateY(30px); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translateY(0); 
+    opacity: 1; 
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% { 
+    transform: translateY(0); 
+  }
+  40%, 43% { 
+    transform: translateY(-8px); 
+  }
+  70% { 
+    transform: translateY(-4px); 
+  }
+  90% { 
+    transform: translateY(-2px); 
+  }
+}
+
+@keyframes pulse {
+  0% { 
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); 
+  }
+  70% { 
+    box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); 
+  }
+  100% { 
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); 
+  }
+}
+
+@keyframes float {
+  0% { 
+    transform: translateY(0px); 
+  }
+  50% { 
+    transform: translateY(-6px); 
+  }
+  100% { 
+    transform: translateY(0px); 
+  }
+}
+
+@keyframes shimmer {
+  0% { 
+    background-position: -468px 0; 
+  }
+  100% { 
+    background-position: 468px 0; 
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Clases utilitarias */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+.bounce {
+  animation: bounce 0.6s ease-in-out;
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #6366F1 0%, #EC4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-border {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  padding: 2px;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: inherit;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+/* Efectos hover */
+.hover-lift {
+  transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.hover-scale {
+  transition: transform 0.2s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-glow {
+  transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+/* Estilos personalizados para componentes */
+.social-preview-tabs .ant-tabs-tab {
+  font-size: 16px !important;
+  font-weight: bold !important;
+  padding: 12px 20px !important;
+  transition: all 0.3s ease !important;
+}
+
+.social-preview-tabs .ant-tabs-tab-active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  border-radius: 8px !important;
+}
+
+.social-preview-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: white !important;
+}
+
+.social-preview-tabs .ant-tabs-tab-active span {
+  color: white !important;
+}
+
+.social-preview-tabs .ant-tabs-tab-active svg {
+  color: white !important;
+}
+
+.social-preview-tabs .ant-tabs-ink-bar {
+  display: none !important;
+}
+
+/* Hover solo para tabs NO activas */
+.social-preview-tabs .ant-tabs-tab:not(.ant-tabs-tab-active):hover {
+  background: rgba(99, 102, 241, 0.1) !important;
+  border-radius: 8px !important;
+}

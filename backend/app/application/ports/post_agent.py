@@ -1,4 +1,4 @@
-from typing import Protocol, List, Optional, TypedDict
+from typing import Any, Dict, NotRequired, Protocol, List, Optional, TypedDict
 
 
 class PostOutput(TypedDict):
@@ -7,6 +7,7 @@ class PostOutput(TypedDict):
     image_prompt: str
     score: float
     sources: List[str]
+    usage: NotRequired[Dict[str, Any]]
 
 
 class PostGenerationPort(Protocol):

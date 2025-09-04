@@ -1,8 +1,10 @@
 import os
+import time
 import base64
 from typing import Optional, List
 from openai import OpenAI
 from app.application.ports.image import ImageGenPort
+from app.adapters.logger_structlog import logger
 
 def _slugify(text: str) -> str:
     return "".join(c.lower() if c.isalnum() else "-" for c in text).strip("-")
@@ -24,6 +26,7 @@ class DalleAdapter(ImageGenPort):
         os.makedirs(self.out_dir, exist_ok=True)
 
     def _call_generate(self, prompt: str):
+        logger.info("image.api.request", model=self.model, size=self.size)
         return self.client.images.generate(
             model=self.model,
             prompt=prompt,
@@ -42,13 +45,18 @@ class DalleAdapter(ImageGenPort):
         raise RuntimeError("Image generation payload missing b64_json/url.")
 
     def generate(self, *, prompt: str, filename: str | None = None) -> str:
+        start = time.perf_counter()
+        logger.info("image.generate", prompt_preview=prompt[:60])
         resp = self._call_generate(prompt)
         b64 = self._extract_b64(resp)
         fname = filename or f"{_slugify(prompt)[:48]}.png"
         path = os.path.join(self.out_dir, fname)
         with open(path, "wb") as f:
             f.write(base64.b64decode(b64))
-        return f"{self.public_url_prefix}/{fname}"
+        dur_ms = int((time.perf_counter() - start) * 1000)
+        url = f"{self.public_url_prefix}/{fname}"
+        logger.info("image.saved", path=path, url=url, duration_ms=dur_ms)
+        return url
 
     def generate_many(
         self,

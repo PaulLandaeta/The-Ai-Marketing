@@ -1,4 +1,5 @@
 import os
+from app.adapters.logger_structlog import logger
 from app.adapters.trends_pytrends import PyTrendsAdapter
 from app.adapters.news_newsapi import NewsAPIAdapter
 from app.adapters.image_dalle import DalleAdapter
@@ -11,6 +12,7 @@ from app.application.usescases.generate_post import GeneratePostFromSources
 
 
 def build_generate_brief() -> GenerateBrief:
+    logger.info("di.build.generate_brief")
     llm = OpenAIAdapter(model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"))
     trends = PyTrendsAdapter(geo=os.getenv("PYTRENDS_GEO", "US"), tz=0)
     news = NewsAPIAdapter(api_key=os.getenv("NEWSAPI_KEY"), language=os.getenv("NEWSAPI_LANG", "en"))
@@ -21,6 +23,7 @@ def build_generate_brief() -> GenerateBrief:
 
 
 def build_generate_post_usecase() -> GeneratePostFromSources:
+    logger.info("di.build.generate_post")
     llm = OpenAIAdapter(api_key=os.getenv("OPENAI_API_KEY"))
     generator = PostGenerationAdapter(llm=llm)
     agent = PostAgent(generator=generator)
