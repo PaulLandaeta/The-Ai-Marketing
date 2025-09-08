@@ -49,7 +49,7 @@ class GeneratePostFromSources:
                 logger.info("image.generate_many.start", count=len(prompts))
                 result["images"] = self.image_gen.generate_many(prompts=prompts, filenames=filenames)
                 logger.info("image.generate_many.done", count=len(result.get("images", [])))
-            result["image_prompt"] = base_prompt  # sobreescribe con el enriquecido
+            result["image_prompt"] = base_prompt
             img_usd = image_cost_usd(size=image_size, n_images=n_images)
         else:
             if self.image_gen:

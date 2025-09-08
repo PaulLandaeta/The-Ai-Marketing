@@ -154,35 +154,21 @@
 
 /* Estilos personalizados para componentes */
 .social-preview-tabs .ant-tabs-tab {
-  font-size: 16px !important;
-  font-weight: bold !important;
-  padding: 12px 20px !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 8px !important;
   transition: all 0.3s ease !important;
 }
 
 .social-preview-tabs .ant-tabs-tab-active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  border-radius: 8px !important;
-}
-
-.social-preview-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: white !important;
-}
-
-.social-preview-tabs .ant-tabs-tab-active span {
-  color: white !important;
-}
-
-.social-preview-tabs .ant-tabs-tab-active svg {
-  color: white !important;
+  background: transparent !important;
+  border: none !important;
 }
 
 .social-preview-tabs .ant-tabs-ink-bar {
   display: none !important;
 }
 
-/* Hover solo para tabs NO activas */
-.social-preview-tabs .ant-tabs-tab:not(.ant-tabs-tab-active):hover {
-  background: rgba(99, 102, 241, 0.1) !important;
-  border-radius: 8px !important;
+.social-preview-tabs .ant-tabs-tab:hover {
+  background: transparent !important;
 }

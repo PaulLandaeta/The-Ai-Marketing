@@ -1,8 +1,8 @@
 import React from 'react';
 import { Spin, Typography } from 'antd';
-import { RobotOutlined, ThunderboltOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
-import { marketingColors } from '../styles/theme';
-import '../styles/animations.css';
+import { RobotOutlined, ThunderboltOutlined, EyeInvisibleOutlined, RocketOutlined } from '@ant-design/icons';
+import { marketingColors } from '../../styles/theme';
+import '../../styles/animations.css';
 
 const { Text } = Typography;
 
@@ -63,7 +63,8 @@ const LoadingState: React.FC<LoadingStateProps> = ({ isGenerating, hasContent })
               marginBottom: '8px'
             }}
           >
-            ✨ Generating Amazing Content...
+            <RobotOutlined style={{ marginRight: '8px' }} />
+            Generating Amazing Content...
           </Text>
           <Text 
             style={{ 
@@ -108,7 +109,8 @@ const LoadingState: React.FC<LoadingStateProps> = ({ isGenerating, hasContent })
               marginBottom: '12px'
             }}
           >
-            🚀 Ready to Create Magic?
+            <RocketOutlined style={{ marginRight: '8px' }} />
+            Ready to Create Magic?
           </Text>
           <Text 
             style={{ 

@@ -12,7 +12,11 @@ function App() {
     <Layout style={{ minHeight: '100vh', background: marketingColors.cardGradient }}>
       <Sidebar />
 
-      <Layout style={{ marginLeft: sidebarCollapsed ? 80 : 240, transition: 'margin-left 0.2s' }}>
+      <Layout style={{ 
+        marginLeft: sidebarCollapsed ? 80 : 240, 
+        marginRight: 550,
+        transition: 'margin 0.2s' 
+      }}>
         <Content 
           className="fade-in"
           style={{ 
@@ -22,17 +26,16 @@ function App() {
           }}
         >
           <div style={{ 
-            display: 'flex', 
-            gap: '32px', 
             height: '100%',
-            maxWidth: '1400px',
+            maxWidth: '100%',
             margin: '0 auto'
           }}>
             <MainForm />
-            <ResultPanel />
           </div>
         </Content>
       </Layout>
+
+      <ResultPanel />
     </Layout>
   );
 }

@@ -20,6 +20,10 @@ pip install -r requirements.txt # or: uv pip install -e .
 uvicorn app.main:app --reload   
 ```
 
+### Environment
+- Coloca tus variables en `backend/.env` (o en cualquier `.env` en la ruta superior). Al iniciar, la app las carga automáticamente con `python-dotenv`.
+- Alternativa: `uvicorn app.main:app --reload --env-file .env`.
+
 check in browser at:
 
 ```

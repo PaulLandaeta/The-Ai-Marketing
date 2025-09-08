@@ -1,8 +1,9 @@
 export const marketingColors = {
-  primary: '#6366F1',
+  primary: 'linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%)',
   secondary: '#EC4899', 
   accent: '#10B981',
   warning: '#F59E0B',
+  success: '#10B981',
   gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
   gradientHover: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
   cardGradient: 'linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)',

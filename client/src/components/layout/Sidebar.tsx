@@ -12,8 +12,8 @@ import {
   FileTextOutlined,
   ThunderboltOutlined,
 } from '@ant-design/icons';
-import { marketingColors } from '../styles/theme';
-import { useUIState, useAppStore } from '../stores';
+import { marketingColors } from '../../styles/theme';
+import { useUIState, useAppStore } from '../../stores';
 
 const { Sider } = Layout;
 const { Text } = Typography;

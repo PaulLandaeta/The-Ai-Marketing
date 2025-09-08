@@ -7,6 +7,7 @@ from app.adapters.logger_structlog import StructLogger
 from app.application.usescases.generate_brief import GenerateBrief
 from app.adapters.llm_openai import OpenAIAdapter
 from app.adapters.post_agent import PostGenerationAdapter
+from app.adapters.post_reviewer import PostReviewAdapter
 from app.application.services.post_agent import PostAgent
 from app.application.usescases.generate_post import GeneratePostFromSources
 
@@ -26,7 +27,8 @@ def build_generate_post_usecase() -> GeneratePostFromSources:
     logger.info("di.build.generate_post")
     llm = OpenAIAdapter(api_key=os.getenv("OPENAI_API_KEY"))
     generator = PostGenerationAdapter(llm=llm)
-    agent = PostAgent(generator=generator)
+    reviewer = PostReviewAdapter(llm=llm)
+    agent = PostAgent(generator=generator, reviewer=reviewer)
 
     image_gen = DalleAdapter(
         api_key=os.getenv("OPENAI_API_KEY"),
