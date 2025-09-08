@@ -26,7 +26,7 @@ export const BriefPreview: React.FC<BriefPreviewProps> = ({ briefData }) => {
             <FileTextOutlined style={{ fontSize: '24px', color: 'white' }} />
             <div>
               <Title level={4} style={{ color: 'white', margin: 0 }}>
-                Brief Estratégico
+                Strategic Brief
               </Title>
               <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: '12px' }}>
                 {briefData.post_type} • ID: {briefData.run_id?.substring(0, 8)}
@@ -38,7 +38,7 @@ export const BriefPreview: React.FC<BriefPreviewProps> = ({ briefData }) => {
         <div style={{ marginBottom: '16px' }}>
           <Title level={5} style={{ color: '#666', marginBottom: '8px' }}>
             <BulbOutlined style={{ marginRight: '8px' }} />
-            MENSAJE CENTRAL
+            CORE MESSAGE
           </Title>
           <Paragraph style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
             {briefData.core_text}
@@ -46,7 +46,7 @@ export const BriefPreview: React.FC<BriefPreviewProps> = ({ briefData }) => {
           
           <div style={{ marginBottom: '12px' }}>
             <Text strong style={{ fontSize: '12px', color: '#666' }}>
-              Caption Sugerido:
+              Suggested Caption:
             </Text>
             <Paragraph style={{ fontStyle: 'italic', color: '#666', fontSize: '13px', margin: '4px 0' }}>
               "{briefData.caption}"
@@ -69,7 +69,7 @@ export const BriefPreview: React.FC<BriefPreviewProps> = ({ briefData }) => {
               ))}
               {briefData.hashtags.length > 6 && (
                 <Tag color="default" style={{ fontSize: '11px' }}>
-                  +{briefData.hashtags.length - 6} más
+                  +{briefData.hashtags.length - 6} more
                 </Tag>
               )}
             </Space>
@@ -79,16 +79,16 @@ export const BriefPreview: React.FC<BriefPreviewProps> = ({ briefData }) => {
         <div style={{ marginBottom: '16px' }}>
           <Title level={5} style={{ color: '#666', marginBottom: '8px' }}>
             <PictureOutlined style={{ marginRight: '8px' }} />
-            CONCEPTO VISUAL
+            VISUAL CONCEPT
           </Title>
           
           <div style={{ display: 'flex', gap: '12px', marginBottom: '12px' }}>
             <div style={{ flex: 1 }}>
-              <Text strong style={{ fontSize: '12px' }}>Formato:</Text>
+              <Text strong style={{ fontSize: '12px' }}>Format:</Text>
               <div><Tag color="purple" style={{ fontSize: '11px' }}>{briefData.visual_concept.format}</Tag></div>
             </div>
             <div style={{ flex: 1 }}>
-              <Text strong style={{ fontSize: '12px' }}>Paleta:</Text>
+              <Text strong style={{ fontSize: '12px' }}>Palette:</Text>
               <div style={{ marginTop: '4px' }}>
                 <Space>
                   {briefData.visual_concept.palette.slice(0, 3).map((color, index) => (
@@ -128,7 +128,7 @@ export const BriefPreview: React.FC<BriefPreviewProps> = ({ briefData }) => {
           <div style={{ marginBottom: '16px' }}>
             <Title level={5} style={{ color: '#666', marginBottom: '8px' }}>
               <BarChartOutlined style={{ marginRight: '8px' }} />
-              DATOS CLAVE
+              KEY FACTS
             </Title>
             <div style={{ maxHeight: '120px', overflowY: 'auto' }}>
               {briefData.facts.slice(0, 3).map((fact, index) => (
@@ -154,7 +154,7 @@ export const BriefPreview: React.FC<BriefPreviewProps> = ({ briefData }) => {
             size="small"
             style={{ color: '#52c41a', flex: 1 }}
           >
-            Exportar
+            Export
           </Button>
           <Button 
             type="text"
@@ -162,7 +162,7 @@ export const BriefPreview: React.FC<BriefPreviewProps> = ({ briefData }) => {
             size="small"
             style={{ color: '#1890ff', flex: 1 }}
           >
-            Generar Post
+            Generate Post
           </Button>
         </div>
       </Space>

@@ -13,7 +13,7 @@ export const FormModeSelector: React.FC = () => {
       label: (
         <div style={{ padding: '8px 16px', textAlign: 'center' }}>
           <FileTextOutlined style={{ fontSize: '18px', display: 'block', marginBottom: '4px' }} />
-          <span style={{ fontSize: '13px', fontWeight: '500' }}>Brief Estratégico</span>
+          <span style={{ fontSize: '13px', fontWeight: '500' }}>Strategic Brief</span>
         </div>
       ),
       value: 'brief',
@@ -22,7 +22,7 @@ export const FormModeSelector: React.FC = () => {
       label: (
         <div style={{ padding: '8px 16px', textAlign: 'center' }}>
           <EditOutlined style={{ fontSize: '18px', display: 'block', marginBottom: '4px' }} />
-          <span style={{ fontSize: '13px', fontWeight: '500' }}>Post Completo</span>
+          <span style={{ fontSize: '13px', fontWeight: '500' }}>Full Post</span>
         </div>
       ),
       value: 'post',
@@ -49,7 +49,7 @@ export const FormModeSelector: React.FC = () => {
         textTransform: 'uppercase'
       }}>
         <FileTextOutlined style={{ marginRight: '8px', color: '#8b5cf6' }} />
-        TIPO DE GENERACIÓN
+        GENERATION TYPE
       </Title>
       <Segmented
         options={options}
@@ -73,8 +73,8 @@ export const FormModeSelector: React.FC = () => {
         }}
       >
         {formMode === 'brief' 
-          ? 'Genera un brief estratégico para planificar tu campaña de marketing'
-          : 'Genera posts listos para publicar directamente en redes sociales'
+          ? 'Generate a strategic brief to plan your marketing campaign'
+          : 'Generate ready-to-publish social posts'
         }
       </Text>
     </Card>

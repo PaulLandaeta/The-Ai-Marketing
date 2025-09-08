@@ -115,12 +115,14 @@ const ResultPanel: React.FC = () => {
                 </div>
 
                 <SocialPreview 
+                  key={generatedContent.run_id || generatedContent.id}
                   content={generatedContent.content}
                   imageUrl={generatedContent.images[0]?.url || ''}
                   hashtags={generatedContent.hashtags.join(' ')}
                 />
 
                 <ImageGallery 
+                  key={(generatedContent.run_id || generatedContent.id) + '-gallery'}
                   images={generatedContent.images?.map(img => typeof img === 'string' ? img : img.url) || []}
                   title="Generated Images"
                 />

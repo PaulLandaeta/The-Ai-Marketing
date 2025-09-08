@@ -1,6 +1,27 @@
-# React + TypeScript + Vite
+# Client (React + TypeScript + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend for AI Marketing Agent. It consumes the FastAPI backend.
+
+## Run locally
+
+1) Install deps
+```
+cd client
+npm install
+```
+
+2) Configure the backend URL so images and API calls work
+```
+echo "VITE_API_URL=http://localhost:8000" > .env.local
+echo "VITE_API_TIMEOUT_MS=0" >> .env.local  # 0 = no timeout (wait until finish)
+```
+
+3) Start dev server
+```
+npm run dev
+```
+
+The app will call `POST /posts:generate` on the backend and render the returned post and images. Image URLs from the backend are normalized to absolute URLs using `VITE_API_URL`.
 
 Currently, two official plugins are available:
 

@@ -137,6 +137,7 @@ export interface GeneratedPost {
   content: string;
   hashtags: string[];
   images: GeneratedImage[];
+  run_id?: string;
   word_count: number;
   engagement_score: number;
   readability_score: number;

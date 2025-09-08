@@ -31,12 +31,12 @@ export const BriefForm: React.FC = () => {
             textTransform: 'uppercase'
           }}>
             <MessageOutlined style={{ marginRight: '8px', color: '#8b5cf6' }} />
-            DESCRIPCIÓN DEL BRIEF
+            BRIEF DESCRIPTION
           </Title>
           <TextArea
             value={briefForm.prompt}
             onChange={(e) => updateBriefForm({ prompt: e.target.value })}
-            placeholder="Describe el objetivo de tu campaña de marketing, el producto o servicio, y el mensaje que quieres transmitir..."
+            placeholder="Describe your marketing campaign goal, product/service, and the core message you want to convey..."
             rows={4}
             showCount
             maxLength={1000}
@@ -52,7 +52,7 @@ export const BriefForm: React.FC = () => {
             marginTop: '8px', 
             display: 'block' 
           }}>
-            Sé específico sobre tu marca, objetivos y audiencia objetivo
+            Be specific about your brand, goals, and target audience
           </Text>
         </Card>
 
@@ -77,12 +77,12 @@ export const BriefForm: React.FC = () => {
                   textTransform: 'uppercase'
                 }}>
                   <GlobalOutlined style={{ marginRight: '8px', color: '#8b5cf6' }} />
-                  PLATAFORMA PRINCIPAL
+                  PRIMARY PLATFORM
                 </Title>
                 <Select
                   value={briefForm.platform}
                   onChange={(value) => updateBriefForm({ platform: value })}
-                  placeholder="Selecciona la plataforma"
+                  placeholder="Select platform"
                   size="large"
                   style={{ 
                     width: '100%', 
@@ -108,22 +108,22 @@ export const BriefForm: React.FC = () => {
                   textTransform: 'uppercase'
                 }}>
                   <AimOutlined style={{ marginRight: '8px', color: '#8b5cf6' }} />
-                  OBJETIVO DE CAMPAÑA
+                  CAMPAIGN OBJECTIVE
                 </Title>
                 <Select
                   value={briefForm.objective}
                   onChange={(value) => updateBriefForm({ objective: value })}
-                  placeholder="Selecciona el objetivo"
+                  placeholder="Select objective"
                   size="large"
                   style={{ 
                     width: '100%', 
                     borderRadius: '12px'
                   }}
                 >
-                  <Option value="Awareness"><AimOutlined style={{ marginRight: '8px' }} />Conocimiento de Marca</Option>
-                  <Option value="Engagement"><TeamOutlined style={{ marginRight: '8px' }} />Engagement/Interacción</Option>
-                  <Option value="Conversion"><DollarOutlined style={{ marginRight: '8px' }} />Conversión/Ventas</Option>
-                  <Option value="LeadGen"><TrophyOutlined style={{ marginRight: '8px' }} />Generación de Leads</Option>
+                  <Option value="Awareness"><AimOutlined style={{ marginRight: '8px' }} />Brand Awareness</Option>
+                  <Option value="Engagement"><TeamOutlined style={{ marginRight: '8px' }} />Engagement/Interaction</Option>
+                  <Option value="Conversion"><DollarOutlined style={{ marginRight: '8px' }} />Conversion/Sales</Option>
+                  <Option value="LeadGen"><TrophyOutlined style={{ marginRight: '8px' }} />Lead Generation</Option>
                 </Select>
               </div>
             </Col>
@@ -148,12 +148,12 @@ export const BriefForm: React.FC = () => {
             textTransform: 'uppercase'
           }}>
             <BulbOutlined style={{ marginRight: '8px', color: '#8b5cf6' }} />
-            GUÍAS DE MARCA (OPCIONAL)
+            BRAND GUIDELINES (OPTIONAL)
           </Title>
           <TextArea
             value={briefForm.brand_cues}
             onChange={(e) => updateBriefForm({ brand_cues: e.target.value })}
-            placeholder="Describe el tono de tu marca, valores, personalidad, colores, estilo de comunicación..."
+            placeholder="Describe your brand tone, values, personality, colors, communication style..."
             rows={3}
             showCount
             maxLength={500}
@@ -169,7 +169,7 @@ export const BriefForm: React.FC = () => {
             marginTop: '8px', 
             display: 'block' 
           }}>
-            Ejemplo: "Marca joven y disruptiva, tono casual pero profesional, colores vibrantes"
+            Example: "Young and disruptive brand, casual but professional tone, vibrant colors"
           </Text>
         </Card>
       </Space>

@@ -32,13 +32,13 @@ export const PostForm: React.FC = () => {
             textTransform: 'uppercase'
           }}>
             <FileTextOutlined style={{ marginRight: '8px', color: '#8b5cf6' }} />
-            DESCRIPCIÓN DEL POST
+            POST DESCRIPTION
           </Title>
           
           <TextArea
             value={postForm.prompt}
             onChange={(e) => updatePostForm({ prompt: e.target.value })}
-            placeholder="Describe el contenido que quieres generar..."
+            placeholder="Describe the content you want to generate..."
             rows={4}
             size="large"
             style={{ 
@@ -67,7 +67,7 @@ export const PostForm: React.FC = () => {
             textTransform: 'uppercase'
           }}>
             <SettingOutlined style={{ marginRight: '8px', color: '#8b5cf6' }} />
-            CONFIGURACIÓN BÁSICA
+            BASIC SETTINGS
           </Title>
           
           <Row gutter={24}>
@@ -80,12 +80,12 @@ export const PostForm: React.FC = () => {
                 letterSpacing: '0.5px',
                 textTransform: 'uppercase'
               }}>
-                AUDIENCIA
+                AUDIENCE
               </Title>
               <Input
                 value={postForm.audience}
                 onChange={(e) => updatePostForm({ audience: e.target.value })}
-                placeholder="Ej: Emprendedores digitales"
+                placeholder="e.g., Digital entrepreneurs"
                 size="large"
                 style={{ 
                   borderRadius: '12px',
@@ -104,7 +104,7 @@ export const PostForm: React.FC = () => {
                 letterSpacing: '0.5px',
                 textTransform: 'uppercase'
               }}>
-                PLANTILLA
+                TEMPLATE
               </Title>
               <Select
                 value={postForm.template}
@@ -116,12 +116,12 @@ export const PostForm: React.FC = () => {
                 }}
               >
                 <Option value="casual"><SmileOutlined style={{ marginRight: '8px' }} />Casual</Option>
-                <Option value="professional"><BookOutlined style={{ marginRight: '8px' }} />Profesional</Option>
-                <Option value="storytelling"><MessageOutlined style={{ marginRight: '8px' }} />Historia</Option>
-                <Option value="technical"><CalculatorOutlined style={{ marginRight: '8px' }} />Técnico</Option>
-                <Option value="contrarian"><FireOutlined style={{ marginRight: '8px' }} />Contrario</Option>
-                <Option value="case-study"><BarChartOutlined style={{ marginRight: '8px' }} />Caso de Estudio</Option>
-                <Option value="announcement"><RocketOutlined style={{ marginRight: '8px' }} />Anuncio</Option>
+                <Option value="professional"><BookOutlined style={{ marginRight: '8px' }} />Professional</Option>
+                <Option value="storytelling"><MessageOutlined style={{ marginRight: '8px' }} />Storytelling</Option>
+                <Option value="technical"><CalculatorOutlined style={{ marginRight: '8px' }} />Technical</Option>
+                <Option value="contrarian"><FireOutlined style={{ marginRight: '8px' }} />Contrarian</Option>
+                <Option value="case-study"><BarChartOutlined style={{ marginRight: '8px' }} />Case Study</Option>
+                <Option value="announcement"><RocketOutlined style={{ marginRight: '8px' }} />Announcement</Option>
               </Select>
             </Col>
 
@@ -134,7 +134,7 @@ export const PostForm: React.FC = () => {
                 letterSpacing: '0.5px',
                 textTransform: 'uppercase'
               }}>
-                TONO
+                TONE
               </Title>
               <Select
                 value={postForm.tone}
@@ -145,13 +145,13 @@ export const PostForm: React.FC = () => {
                   borderRadius: '12px'
                 }}
               >
-                <Option value="enthusiastic"><RocketOutlined style={{ marginRight: '8px' }} />Entusiasta</Option>
-                <Option value="professional"><BookOutlined style={{ marginRight: '8px' }} />Profesional</Option>
-                <Option value="friendly"><SmileOutlined style={{ marginRight: '8px' }} />Amigable</Option>
-                <Option value="humble"><BulbOutlined style={{ marginRight: '8px' }} />Humilde</Option>
-                <Option value="confident"><FireOutlined style={{ marginRight: '8px' }} />Confiado</Option>
-                <Option value="technical"><CalculatorOutlined style={{ marginRight: '8px' }} />Técnico</Option>
-                <Option value="celebratory"><RocketOutlined style={{ marginRight: '8px' }} />Celebratorio</Option>
+                <Option value="enthusiastic"><RocketOutlined style={{ marginRight: '8px' }} />Enthusiastic</Option>
+                <Option value="professional"><BookOutlined style={{ marginRight: '8px' }} />Professional</Option>
+                <Option value="friendly"><SmileOutlined style={{ marginRight: '8px' }} />Friendly</Option>
+                <Option value="humble"><BulbOutlined style={{ marginRight: '8px' }} />Humble</Option>
+                <Option value="confident"><FireOutlined style={{ marginRight: '8px' }} />Confident</Option>
+                <Option value="technical"><CalculatorOutlined style={{ marginRight: '8px' }} />Technical</Option>
+                <Option value="celebratory"><RocketOutlined style={{ marginRight: '8px' }} />Celebratory</Option>
               </Select>
             </Col>
           </Row>
@@ -175,7 +175,7 @@ export const PostForm: React.FC = () => {
             textTransform: 'uppercase'
           }}>
             <BarChartOutlined style={{ marginRight: '8px', color: '#8b5cf6' }} />
-            MÉTRICAS Y OPCIONES
+            METRICS & OPTIONS
           </Title>
           
           <Row gutter={24}>
@@ -187,7 +187,7 @@ export const PostForm: React.FC = () => {
                 fontWeight: '500'
               }}>
                 <CalculatorOutlined style={{ marginRight: '8px' }} />
-                CONTADOR DE PALABRAS
+                WORD COUNT
               </Title>
               
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -209,7 +209,7 @@ export const PostForm: React.FC = () => {
               </div>
               
               <Text style={{ fontSize: '12px', color: '#999', marginTop: '8px' }}>
-                Actual: {postForm.word_count} palabras
+                Current: {postForm.word_count} words
               </Text>
             </Col>
 
@@ -222,7 +222,7 @@ export const PostForm: React.FC = () => {
                 letterSpacing: '0.5px',
                 textTransform: 'uppercase'
               }}>
-                VARIACIONES
+                VARIATIONS
               </Title>
               <InputNumber
                 value={postForm.variations}
@@ -249,7 +249,7 @@ export const PostForm: React.FC = () => {
                 />
                 <Text style={{ fontSize: '14px', color: '#333' }}>
                   <TagsOutlined style={{ marginRight: '8px', color: '#8b5cf6' }} />
-                  Generar Hashtags
+                  Generate Hashtags
                 </Text>
               </Space>
             </Col>
@@ -263,7 +263,7 @@ export const PostForm: React.FC = () => {
                 />
                 <Text style={{ fontSize: '14px', color: '#333' }}>
                   <SmileOutlined style={{ marginRight: '8px', color: '#8b5cf6' }} />
-                  Incluir Emojis
+                  Include Emojis
                 </Text>
               </Space>
             </Col>
@@ -289,7 +289,7 @@ export const PostForm: React.FC = () => {
                 fontWeight: '600',
                 color: '#333'
               }}>
-                Configuración Avanzada
+                Advanced Settings
               </Text>
             </Space>
             {showAdvanced ? 
@@ -319,13 +319,13 @@ export const PostForm: React.FC = () => {
                 textTransform: 'uppercase'
               }}>
                 <BulbOutlined style={{ marginRight: '8px', color: '#8b5cf6' }} />
-                TEMA ESPECÍFICO (OPCIONAL)
+                SPECIFIC TOPIC (OPTIONAL)
               </Title>
               
               <Input
                 value={postForm.topic || ''}
                 onChange={(e) => updatePostForm({ topic: e.target.value || undefined })}
-                placeholder="Ej: Inteligencia Artificial en Marketing"
+                placeholder="e.g., Artificial Intelligence in Marketing"
                 size="large"
                 style={{ 
                   borderRadius: '12px',
@@ -353,7 +353,7 @@ export const PostForm: React.FC = () => {
                 textTransform: 'uppercase'
               }}>
                 <TagsOutlined style={{ marginRight: '8px', color: '#8b5cf6' }} />
-                IDIOMA Y HASHTAGS SEMILLA
+                LANGUAGE & SEED HASHTAGS
               </Title>
               
               <Row gutter={24}>
@@ -366,7 +366,7 @@ export const PostForm: React.FC = () => {
                     letterSpacing: '0.5px',
                     textTransform: 'uppercase'
                   }}>
-                    IDIOMA
+                    LANGUAGE
                   </Title>
                   <Select
                     value={postForm.language}
@@ -377,11 +377,11 @@ export const PostForm: React.FC = () => {
                       borderRadius: '12px'
                     }}
                   >
-                    <Option value="es">🇪🇸 Español</Option>
-                    <Option value="en">🇺🇸 Inglés</Option>
-                    <Option value="fr">🇫🇷 Francés</Option>
-                    <Option value="de">🇩🇪 Alemán</Option>
-                    <Option value="pt">🇧🇷 Portugués</Option>
+                    <Option value="es">🇪🇸 Spanish</Option>
+                    <Option value="en">🇺🇸 English</Option>
+                    <Option value="fr">🇫🇷 French</Option>
+                    <Option value="de">🇩🇪 German</Option>
+                    <Option value="pt">🇧🇷 Portuguese</Option>
                   </Select>
                 </Col>
 
@@ -394,7 +394,7 @@ export const PostForm: React.FC = () => {
                     letterSpacing: '0.5px',
                     textTransform: 'uppercase'
                   }}>
-                    HASHTAGS SEMILLA
+                    SEED HASHTAGS
                   </Title>
                   <Input
                     value={postForm.seed_hashtags.join(', ')}
@@ -402,7 +402,7 @@ export const PostForm: React.FC = () => {
                       const hashtags = e.target.value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
                       updatePostForm({ seed_hashtags: hashtags });
                     }}
-                    placeholder="Ej: #marketing, #ia, #tecnología"
+                    placeholder="e.g., #marketing, #ai, #technology"
                     size="large"
                     style={{ 
                       borderRadius: '12px',
@@ -432,7 +432,7 @@ export const PostForm: React.FC = () => {
                 textTransform: 'uppercase'
               }}>
                 <PictureOutlined style={{ marginRight: '8px', color: '#8b5cf6' }} />
-                CONFIGURACIÓN DE IMAGEN
+                IMAGE SETTINGS
               </Title>
               
               <Row gutter={24}>
@@ -445,7 +445,7 @@ export const PostForm: React.FC = () => {
                     letterSpacing: '0.5px',
                     textTransform: 'uppercase'
                   }}>
-                    CANTIDAD
+                    COUNT
                   </Title>
                   <InputNumber
                     value={postForm.n_images}
@@ -470,7 +470,7 @@ export const PostForm: React.FC = () => {
                     letterSpacing: '0.5px',
                     textTransform: 'uppercase'
                   }}>
-                    ESTILO
+                    STYLE
                   </Title>
                   <Select
                     value={postForm.image_style}
@@ -482,10 +482,10 @@ export const PostForm: React.FC = () => {
                     }}
                   >
                     <Option value="minimal-ui">Minimal UI</Option>
-                    <Option value="isometric">Isométrico</Option>
+                    <Option value="isometric">Isometric</Option>
                     <Option value="data-viz">Data Viz</Option>
-                    <Option value="abstract">Abstracto</Option>
-                    <Option value="diagram">Diagrama</Option>
+                    <Option value="abstract">Abstract</Option>
+                    <Option value="diagram">Diagram</Option>
                   </Select>
                 </Col>
 
@@ -498,7 +498,7 @@ export const PostForm: React.FC = () => {
                     letterSpacing: '0.5px',
                     textTransform: 'uppercase'
                   }}>
-                    PALETA
+                    PALETTE
                   </Title>
                   <Select
                     value={postForm.image_palette}
@@ -509,11 +509,11 @@ export const PostForm: React.FC = () => {
                       borderRadius: '12px'
                     }}
                   >
-                    <Option value="blue/green">Azul/Verde</Option>
-                    <Option value="warm">Cálida</Option>
-                    <Option value="cool">Fría</Option>
-                    <Option value="monochrome">Monocromática</Option>
-                    <Option value="vibrant">Vibrante</Option>
+                    <Option value="blue/green">Blue/Green</Option>
+                    <Option value="warm">Warm</Option>
+                    <Option value="cool">Cool</Option>
+                    <Option value="monochrome">Monochrome</Option>
+                    <Option value="vibrant">Vibrant</Option>
                   </Select>
                 </Col>
 
@@ -526,7 +526,7 @@ export const PostForm: React.FC = () => {
                     letterSpacing: '0.5px',
                     textTransform: 'uppercase'
                   }}>
-                    TAMAÑO
+                    SIZE
                   </Title>
                   <Select
                     value={postForm.image_size}
@@ -563,7 +563,7 @@ export const PostForm: React.FC = () => {
                 textTransform: 'uppercase'
               }}>
                 <SettingOutlined style={{ marginRight: '8px', color: '#8b5cf6' }} />
-                REGLAS DE MARCA
+                BRAND RULES
               </Title>
               
               <Row gutter={24}>
@@ -576,7 +576,7 @@ export const PostForm: React.FC = () => {
                     letterSpacing: '0.5px',
                     textTransform: 'uppercase'
                   }}>
-                    FRASES PROHIBIDAS
+                    BANNED PHRASES
                   </Title>
                   <Input
                     value={postForm.brand_rules.banned_phrases.join(', ')}
@@ -589,7 +589,7 @@ export const PostForm: React.FC = () => {
                         } 
                       });
                     }}
-                    placeholder="Ej: gratis, urgente, último día"
+                    placeholder="e.g., free, urgent, last day"
                     size="large"
                     style={{ 
                       borderRadius: '12px',
@@ -608,7 +608,7 @@ export const PostForm: React.FC = () => {
                     letterSpacing: '0.5px',
                     textTransform: 'uppercase'
                   }}>
-                    ESTILO DE CTA
+                    CTA STYLE
                   </Title>
                   <Select
                     value={postForm.brand_rules.cta_style}
@@ -639,7 +639,7 @@ export const PostForm: React.FC = () => {
                     letterSpacing: '0.5px',
                     textTransform: 'uppercase'
                   }}>
-                    POLÍTICA DE ENLACES
+                    LINK POLICY
                   </Title>
                   <Select
                     value={postForm.brand_rules.link_policy}
@@ -655,9 +655,9 @@ export const PostForm: React.FC = () => {
                       borderRadius: '12px'
                     }}
                   >
-                    <Option value="no_links">Sin enlaces</Option>
-                    <Option value="allow_one">Permitir uno</Option>
-                    <Option value="allow_many">Permitir varios</Option>
+                    <Option value="no_links">No links</Option>
+                    <Option value="allow_one">Allow one</Option>
+                    <Option value="allow_many">Allow many</Option>
                   </Select>
                 </Col>
               </Row>

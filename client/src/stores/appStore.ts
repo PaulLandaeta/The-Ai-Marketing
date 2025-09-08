@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import type { GeneratedPost, BriefInput } from '../api/types';
 import postsService from '../service/postsService';
+import type { PostGenerationRequest } from '../api/types';
 
 export type FormMode = 'post' | 'brief';
 
@@ -105,12 +106,12 @@ const initialPostFormState: PostFormState = {
   audience: 'GENERAL',
   generate_hashtags: true,
   include_emojis: true,
-  language: 'Spanish',
+  language: 'en',
   seed_hashtags: [],
   topic: '',
   n_images: 1,
   image_style: 'minimal-ui',
-  image_palette: 'professional',
+  image_palette: 'blue/green',
   image_size: '512x512',
   brand_rules: {
     banned_phrases: [],
@@ -187,20 +188,31 @@ export const useAppStore = create<AppState>()(
 
         generatePost: async () => {
           const state = useAppStore.getState();
-          
+
           set({ isGenerating: true }, false, 'generatePost:start');
-          
+
           try {
-            const formData = {
-              prompt: state.form.prompt,
-              url: state.form.url,
-              wordCount: state.form.wordCount,
-              personalityValue: state.form.personalityValue,
-              generateHashtags: state.form.generateHashtags,
-              includeEmojis: state.form.includeEmojis
+            // Enviar TODOS los datos del formulario de Post al backend
+            const payload: PostGenerationRequest = {
+              prompt: state.postForm.prompt,
+              template: state.postForm.template,
+              variations: state.postForm.variations,
+              word_count: state.postForm.word_count,
+              tone: state.postForm.tone as any,
+              audience: state.postForm.audience,
+              generate_hashtags: state.postForm.generate_hashtags,
+              include_emojis: state.postForm.include_emojis,
+              language: state.postForm.language,
+              seed_hashtags: state.postForm.seed_hashtags,
+              topic: state.postForm.topic || undefined,
+              n_images: state.postForm.n_images,
+              image_style: state.postForm.image_style,
+              image_palette: state.postForm.image_palette,
+              image_size: state.postForm.image_size,
+              brand_rules: state.postForm.brand_rules,
             };
 
-            const response = await postsService.generatePost(formData);
+            const response = await postsService.generatePost(payload);
             const generatedPost = response.data.posts[0];
             
             set(

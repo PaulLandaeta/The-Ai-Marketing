@@ -1,4 +1,5 @@
 from typing import Dict, List
+import uuid
 from app.adapters.logger_structlog import logger
 from app.application.services.post_agent import PostAgent
 from app.application.ports.image import ImageGenPort
@@ -15,6 +16,7 @@ class GeneratePostFromSources:
 
     def _one(self, body: GeneratePostIn) -> Dict:
         topic = body.topic or body.prompt
+        run_id = uuid.uuid4().hex[:12]
         logger.info(
             "post.usecase.one.start",
             topic=topic,
@@ -44,7 +46,8 @@ class GeneratePostFromSources:
             prompts = [
                 f"{base_prompt} (variation {i+1})" for i in range(body.n_images)
             ]
-            filenames = [f"post-img-{i+1:02d}.png" for i in range(body.n_images)]
+            # Unique filenames per run to avoid browser/proxy caching
+            filenames = [f"post-{run_id}-{i+1:02d}.png" for i in range(body.n_images)]
             if self.image_gen:
                 logger.info("image.generate_many.start", count=len(prompts))
                 result["images"] = self.image_gen.generate_many(prompts=prompts, filenames=filenames)
@@ -56,14 +59,16 @@ class GeneratePostFromSources:
                 logger.info("image.generate.start", size=getattr(body, "image_size", None))
                 result["image_url"] = self.image_gen.generate(
                     prompt=image_prompt_from_controls(topic, body.image_style, body.image_palette),
-                    filename="post-img.png",
+                    # Unique filename per run to avoid caching the same URL
+                    filename=f"post-{run_id}.png",
                 )
                 logger.info("image.generate.done", url=result.get("image_url"))
                 img_usd = image_cost_usd(size=image_size, n_images=1)
         
         total_usd = round(llm_usd + img_usd, 4)
         result["usage"] = {**usage, "image_usd": round(img_usd, 4), "total_usd": total_usd}
-        logger.info("post.usecase.one.done")
+        result["run_id"] = run_id
+        logger.info("post.usecase.one.done", run_id=run_id)
         return result
 
     def execute(self, payload: Dict) -> Dict:

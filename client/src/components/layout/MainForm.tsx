@@ -16,7 +16,7 @@ const MainForm: React.FC = () => {
     const currentPrompt = formMode === 'brief' ? state.briefForm.prompt : state.postForm.prompt;
     
     if (!currentPrompt.trim()) {
-      message.error('Por favor ingresa una descripción para generar contenido');
+      message.error('Please enter a description to generate content');
       return;
     }
 
@@ -26,12 +26,12 @@ const MainForm: React.FC = () => {
       } else {
         await generatePost();
       }
-      message.success('¡Contenido generado exitosamente!');
+      message.success('Content generated successfully!');
     } catch (error) {
       message.error(
         error instanceof Error 
-          ? `Error al generar contenido: ${error.message}`
-          : 'Ocurrió un error inesperado'
+          ? `Failed to generate content: ${error.message}`
+          : 'An unexpected error occurred'
       );
     }
   };
@@ -86,8 +86,8 @@ const MainForm: React.FC = () => {
           icon={<RocketOutlined />}
         >
           {isGenerating 
-            ? `Generando ${formMode === 'brief' ? 'Brief' : 'Post'}...` 
-            : `Generar ${formMode === 'brief' ? 'Brief' : 'Post'}`
+            ? `Generating ${formMode === 'brief' ? 'Brief' : 'Post'}...` 
+            : `Generate ${formMode === 'brief' ? 'Brief' : 'Post'}`
           }
         </Button>
       </div>

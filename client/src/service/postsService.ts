@@ -1,10 +1,7 @@
 import apiClient from '../api/client';
-import { mockGeneratePost } from '../mocks';
-import type { 
-  GeneratePostRequest, 
-  GeneratePostResponse, 
-  FormData,
-  BrandRules 
+import type {
+  PostGenerationRequest,
+  GeneratePostResponse,
 } from '../api/types';
 
 class PostsService {
@@ -58,111 +55,69 @@ class PostsService {
     };
   }
 
-  async generatePost(formData: FormData): Promise<GeneratePostResponse> {
+  async generatePost(postRequest: PostGenerationRequest): Promise<GeneratePostResponse> {
+    try {
+      const start = Date.now();
+      const { data: raw } = await apiClient.post(
+        this.endpoint,
+        postRequest
+      );
 
-    const postRequest = {
-      prompt: formData.prompt,
-      template: 'professional' as const,
-      variations: 1,
-      word_count: formData.wordCount,
-      tone: 'professional' as const,
-      audience: 'general',
-      generate_hashtags: formData.generateHashtags,
-      include_emojis: formData.includeEmojis,
-      language: 'en',
-      seed_hashtags: [],
-      topic: formData.prompt,
-      n_images: 1,
-      image_style: 'minimal-ui' as const,
-      image_palette: 'blue/green',
-      image_size: '1024x1024' as const,
-      brand_rules: {
-        banned_phrases: [],
-        cta_style: 'neutral' as const,
-        link_policy: 'no_links' as const
-      }
-    };
+      // Helper to map a single backend result to the UI shape
+      const baseURL = (apiClient.defaults && apiClient.defaults.baseURL) || '';
+      const absolutize = (url: string) => (url?.startsWith('http') ? url : `${baseURL}${url || ''}`);
+      const withCacheBuster = (url: string, v: string | number) => {
+        try {
+          const u = new URL(url);
+          u.searchParams.set('v', String(v));
+          return u.toString();
+        } catch {
+          return `${url}${url.includes('?') ? '&' : '?'}v=${v}`;
+        }
+      };
 
-    const backendResponse = await mockGeneratePost(postRequest);
-    
-    if ('post' in backendResponse) {
-      const generatedPost = {
-        id: `generated-${Date.now()}`,
-        content: backendResponse.post,
-        hashtags: backendResponse.hashtags,
-        images: backendResponse.images.map(url => ({
-          url,
+      const toGeneratedPost = (item: any, idx = 0) => ({
+        id: `generated-${Date.now()}-${idx}`,
+        content: item.post,
+        hashtags: item.hashtags || [],
+        images: (item.images && Array.isArray(item.images)
+          ? item.images
+          : (item.image_url ? [item.image_url] : [])
+        ).map((url: string) => ({
+          url: withCacheBuster(absolutize(url), item.run_id || raw.run_id || Date.now()),
           alt_text: 'Generated image',
-          style: 'minimal-ui',
-          palette: 'blue/green'
+          style: postRequest.image_style,
+          palette: postRequest.image_palette,
         })),
-        word_count: formData.wordCount,
+        run_id: item.run_id || raw.run_id,
+        word_count: postRequest.word_count,
         engagement_score: Math.floor(Math.random() * 30) + 70,
         estimated_reach: Math.floor(Math.random() * 5000) + 1000,
         readability_score: Math.floor(Math.random() * 20) + 80,
-        usage: backendResponse.usage
-      };
-      
-      return {
-        success: true,
-        data: {
-          posts: [generatedPost],
-          request_id: `mock-${Date.now()}`,
-          processing_time: Math.random() * 3000 + 1000,
-        },
-        message: 'Content generated successfully with mock backend'
-      };
-    } else {
-      const posts = backendResponse.options.map((option, index) => ({
-        id: `generated-${Date.now()}-${index}`,
-        content: option.post,
-        hashtags: option.hashtags,
-        images: option.images.map(url => ({
-          url,
-          alt_text: 'Generated image',
-          style: 'minimal-ui',
-          palette: 'blue/green'
-        })),
-        word_count: formData.wordCount,
-        engagement_score: Math.floor(Math.random() * 30) + 70,
-        estimated_reach: Math.floor(Math.random() * 5000) + 1000,
-        readability_score: Math.floor(Math.random() * 20) + 80,
-        usage: option.usage
-      }));
-      
-      return {
+        usage: raw.usage || item.usage || undefined,
+      });
+
+      const posts = 'options' in raw && Array.isArray(raw.options)
+        ? raw.options.map((opt: any, i: number) => toGeneratedPost(opt, i))
+        : [toGeneratedPost(raw, 0)];
+
+      const response: GeneratePostResponse = {
         success: true,
         data: {
           posts,
-          request_id: `mock-${Date.now()}`,
-          processing_time: Math.random() * 3000 + 1000,
+          request_id: `req-${Date.now()}`,
+          processing_time: Date.now() - start,
         },
-        message: 'Multiple posts generated successfully with mock backend'
+        message: 'Content generated successfully',
       };
-    }
-    /*
-    try {
-      const requestData = this.mapFormDataToApiRequest(formData);
-      
-      console.log('Sending request to API:', requestData);
-      
-      const response = await apiClient.post<GeneratePostResponse>(
-        this.endpoint,
-        requestData
-      );
-
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error generating post:', error);
-      
       if (error instanceof Error) {
         throw new Error(`Failed to generate post: ${error.message}`);
       }
-      
       throw new Error('Unknown error occurred while generating post');
     }
-    
-    */
   }
 
   async healthCheck(): Promise<boolean> {
