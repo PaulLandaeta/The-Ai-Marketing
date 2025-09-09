@@ -30,6 +30,12 @@ class PostAgent:
     sources: List[str],
     max_len: int = 1800,
     seed_hashtags: List[str] | None = None,
+    template: str = "professional",
+    include_emojis: bool = False,
+    language: str = "en",
+    brand_rules=None,
+    prompt: str | None = None,
+    generate_hashtags: bool = True,
     ) -> PostOutput:
         # trends = self.trend_analyzer.analyze(sources)
         # curated = self.curator.curate(sources, trends)
@@ -41,6 +47,12 @@ class PostAgent:
         # curated_context=curated,
         max_len=max_len,
         seed_hashtags=seed_hashtags,
+        template=template,
+        include_emojis=include_emojis,
+        language=language,
+        brand_rules=brand_rules,
+        prompt=prompt,
+        generate_hashtags=generate_hashtags,
         )
         # Post-generation verification (credibility + quality %)
         try:

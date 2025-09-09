@@ -28,8 +28,20 @@ def generate_post(payload: dict):
     logger.info(
         "post.generate.request",
         keys=list(payload.keys()),
+        prompt_len=len(payload.get("prompt") or ""),
         variations=payload.get("variations"),
-        topic=payload.get("topic"),
+        word_count=payload.get("word_count"),
+        audience=payload.get("audience"),
+        tone=payload.get("tone"),
+        generate_hashtags=payload.get("generate_hashtags"),
+        include_emojis=payload.get("include_emojis"),
+        language=payload.get("language"),
+        seed_hashtags=payload.get("seed_hashtags"),
+        n_images=payload.get("n_images"),
+        image_style=payload.get("image_style"),
+        image_palette=payload.get("image_palette"),
+        image_size=payload.get("image_size"),
+        brand_rules=payload.get("brand_rules"),
     )
     uc = build_generate_post_usecase()
     try:

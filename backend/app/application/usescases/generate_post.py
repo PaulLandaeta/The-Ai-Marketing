@@ -32,6 +32,12 @@ class GeneratePostFromSources:
             sources=[],
             max_len=body.word_count,
             seed_hashtags=body.seed_hashtags,
+            template=body.template,
+            include_emojis=body.include_emojis,
+            language=body.language,
+            brand_rules=body.brand_rules.model_dump() if hasattr(body, 'brand_rules') else None,
+            prompt=body.prompt,
+            generate_hashtags=body.generate_hashtags,
         )
 
         usage = result.get("usage") or {}

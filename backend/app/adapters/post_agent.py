@@ -1,4 +1,5 @@
 from typing import List, Optional
+import json
 from app.adapters.logger_structlog import logger
 from app.application.ports.post_agent import PostGenerationPort, PostOutput
 from app.adapters.llm_openai import OpenAIAdapter
@@ -54,8 +55,61 @@ class PostGenerationAdapter(PostGenerationPort):
         )
         text = self.llm.complete(prompt=user, system=system).strip()
         
+        # --- hashtags -------------------------------------------------------
+        hashtags: List[str] = []
+        if generate_hashtags:
+            # If user provided seeds, sanitize them; else ask LLM for 3–6 tags
+            seeds = _sanitize_hashtags(seed_hashtags)
+            if seeds:
+                hashtags = seeds
+            else:
+                def _fallback() -> List[str]:
+                    # Build simple, deterministic tags from topic and audience
+                    import re
+                    words = [w for w in re.split(r"[^A-Za-z0-9]+", topic) if len(w) > 2]
+                    uniq = []
+                    seen = set()
+                    for w in words:
+                        lw = w.lower()
+                        if lw not in seen:
+                            seen.add(lw); uniq.append(lw)
+                    base = [f"#{w}" for w in uniq[:5]]
+                    if audience and audience.strip():
+                        a = re.sub(r"[^A-Za-z0-9]", "", audience.strip().lower())
+                        if a:
+                            base.append("#" + a)
+                    return _sanitize_hashtags(base)[:6]
 
-        hashtags = _sanitize_hashtags(seed_hashtags) if generate_hashtags else []
+                hs_system = (
+                    "You are a social media strategist. Return only JSON: a flat array of 3-6 hashtags (strings)"
+                    " without the leading #, concise, no spaces, no duplicates."
+                )
+                hs_user = (
+                    f"Generate hashtags for a LinkedIn post.\n"
+                    f"Topic: {topic}\nAudience: {audience}\nLanguage: {language}"
+                )
+                raw = self.llm.complete(prompt=hs_user, system=hs_system)
+                parsed = False
+                try:
+                    data = json.loads(raw)
+                    if isinstance(data, list):
+                        hashtags = _sanitize_hashtags([str(x) for x in data])
+                        parsed = len(hashtags) > 0
+                except Exception:
+                    # try to extract JSON array from text
+                    try:
+                        start = raw.find('['); end = raw.rfind(']')
+                        if start != -1 and end != -1 and end > start:
+                            data = json.loads(raw[start:end+1])
+                            if isinstance(data, list):
+                                hashtags = _sanitize_hashtags([str(x) for x in data])
+                                parsed = len(hashtags) > 0
+                    except Exception:
+                        pass
+                if not parsed:
+                    logger.warning("post.adapter.hashtags.fallback", sample=raw[:120])
+                    hashtags = _fallback()
+        
         image_prompt = f"Minimal, clean illustration representing: {topic}"
 
         llm_usd = cost_from_usage_usd(
@@ -73,5 +127,12 @@ class PostGenerationAdapter(PostGenerationPort):
             "sources": [],
             "usage": usage, 
         }
-        logger.info("post.adapter.generate_post.done", text_len=len(text), hashtags=len(hashtags))
+        logger.info(
+            "post.adapter.generate_post.done",
+            text_len=len(text),
+            hashtags=len(hashtags),
+            include_emojis=include_emojis,
+            language=language,
+            template=template,
+        )
         return out

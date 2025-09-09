@@ -15,6 +15,11 @@ dependencies = [
     "newsapi-python==0.2.7"
 ]
 
+[project.optional-dependencies]
+dev = [
+    "pytest==8.3.3",
+]
+
 [tool.uvicorn]
 factory = false
 host = "0.0.0.0"

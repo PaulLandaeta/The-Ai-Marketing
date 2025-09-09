@@ -19,6 +19,13 @@ class PostGenerationPort(Protocol):
         tone: str,
         max_len: int = 1800,
         seed_hashtags: Optional[List[str]] = None,
+        # optional extras
+        template: str = "professional",
+        include_emojis: bool = False,
+        language: str = "en",
+        brand_rules: Optional[dict] = None,
+        prompt: Optional[str] = None,
+        generate_hashtags: bool = True,
         # más adelante: curated_context: str,
     ) -> PostOutput:
         ...

@@ -12,12 +12,27 @@
 ## How to run 
 
 ```bash
-# Install deps
+# Install deps (editable)
 cd backend
-pip install -r requirements.txt # or: uv pip install -e .
+pip install -e .[dev]
 
 # Start server
 uvicorn app.main:app --reload   
+```
+
+## Run tests
+
+```bash
+cd backend
+pytest -q
+```
+
+Run a specific suite (use cases or adapters):
+
+```bash
+pytest -q tests/test_generate_post_usecase.py
+pytest -q tests/test_post_generation_adapter.py
+pytest -q tests/test_post_review_adapter.py
 ```
 
 ### Environment

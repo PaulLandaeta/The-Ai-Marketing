@@ -36,7 +36,11 @@ def build_system_prompt(
     brand_rules: Any,   # tolerate None/dict/object
 ) -> str:
     guide = TEMPLATE_GUIDES.get(template, TEMPLATE_GUIDES["professional"])
-    emoji_rule = "Avoid emojis." if not include_emojis else "Use emojis sparingly where they add clarity."
+    emoji_rule = (
+        "Avoid emojis."
+        if not include_emojis
+        else "Include 2–4 relevant emojis, placed only where they add clarity; never overuse."
+    )
 
     cta_style = _get_rule(brand_rules, "cta_style", "Clear, action-oriented CTA at the end")
     link_policy = _get_rule(brand_rules, "link_policy", "Include links only when truly useful; never clickbait.")
